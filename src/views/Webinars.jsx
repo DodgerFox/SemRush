@@ -10,7 +10,6 @@ class Webinars extends React.Component {
     }
     modal = (value) => {
         this.setState({ modal: value })
-        console.log(this.state.modal + ' parent');
     }
     render() {
       return (

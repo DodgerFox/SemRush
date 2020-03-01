@@ -1,95 +1,93 @@
 import React from 'react';
 import './Articles.sass'
+import articles from '../../data/articles.json'
 
 class Articles extends React.Component {
-  render() {
-    const car = 'https://images.unsplash.com/photo-1581908165193-c5f18552ddbb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80';
-      return (
+  state = {
+    articles: articles,
+    total: 8,
+    pages: this.pages(),
+    current: 1
+  }
+  pages () {
+    const length = articles.length;
+    const pages = Math.ceil(length / 8);
+    return pages;
+  }
+  content () {
+    const all = this.state.articles;
+    const max = this.state.total * this.state.current;
+    const min = max - this.state.total;
+    const articles = [];
+    all.forEach((article, index) => {
+      if (index < max && index >= min){
+        articles.push(article)
+      }
+    });
+    return articles
+
+  }
+  changePage (number) {
+    this.setState({current: number})
+  }
+  render () {
+    const articles = this.content();
+    const pages = this.state.pages;
+    let pagination;
+    let numbers = [];
+    if (pages !== null) {
+      for (let i = 1; i <= pages; i++) {
+        numbers.push(i);
+      }
+
+      pagination = numbers.map(number => {
+        let active = this.state.current === number ? 'active' : '';
+
+        return (
+          <div className={"pagination__item " + active} key={number} onClick={() => this.changePage(number)}>{number}</div>
+        );
+      });
+    }
+    return (
+        
         <section className="articles">
             <div className="wrap">
               <div className="articles-body">
-                <article className="article">
+          {
+            articles.map( article => {
+            
+            if (!article.big) {
+              return (
+                <article className="article" key={article.id}>
                   <div className="article-container">
-                    <div className="article__header" style={{ backgroundImage: `url(${ car })` }}></div>
-                    <h3 className="article__title">HTTPS & SSL Does Not Mean You Have a Secure Website</h3>
-                    <p className="article__text">Having an SSL certificate does not mean you have a secure website, and with the new European GDPR regulations</p>
-                    <div className="article-tags">
+                  <div className="article__header" style={{ backgroundImage: `url(${ article.image })` }}></div>
+                  <h3 className="article__title">{ article.title }</h3>
+                  <p className="article__text">{ article.text }</p>
+                  <div className="article-tags">
+                        <div className="article-tags__tag">{ article.tag }</div>
+                      </div>
                     </div>
+                </article>
+              )
+            } else {
+              return (  
+                <article className="article article_big" key={article.id}>
+                  <div className="article-container" style={{ backgroundImage: `url(${ article.image })` }}>
+                  <div className="article__header"></div>
+                  <h3 className="article__title">{ article.title }</h3>
+                  <p className="article__text">{ article.text }</p>
                   </div>
                 </article>
-                <article className="article">
-                  <div className="article-container">
-                    <div className="article__header" styles={{ backgroundImage:`url(${car})` }}></div>
-                    <h3 className="article__title">SEMrush Real-Time Site Analysis of VisionDirect</h3>
-                    <p className="article__text">In this blog post, I share how to use three easily obtainable PPC reports to help improve your organic search performance. </p>
-                    <div className="article-tags">
-                      <div className="article-tags__tag">advanced</div>
-                    </div>
-                  </div>
-                </article>
-                <article className="article">
-                  <div className="article-container">
-                    <div className="article__header" styles={{ backgroundImage:`url(${car})` }}></div>
-                    <h3 className="article__title">SEMrush Real-Time Site Analysis of VisionDirect</h3>
-                    <p className="article__text">Having an SSL certificate does not mean you have a secure website, and with the new European GDPR regulations</p>
-                    <div className="article-tags">
-                      <div className="article-tags__tag">advanced</div>
-                    </div>
-                  </div>
-                </article>
-                <article className="article">
-                  <div className="article-container">
-                    <div className="article__header" styles={{ backgroundImage:`url(${car})` }}></div>
-                    <h3 className="article__title">SEMrush Real-Time Site Analysis of VisionDirect</h3>
-                    <p className="article__text">Having an SSL certificate does not mean you have a secure website, and with the new European GDPR regulations</p>
-                    <div className="article-tags">
-                      <div className="article-tags__tag">advanced</div>
-                    </div>
-                  </div>
-                </article>
-                <article className="article article_big">
-                  <div className="article-container">
-                    <h3 className="article__title">SEMrush Real-Time Site Analysis of VisionDirect</h3>
-                    <p className="article__text">Having an SSL certificate does not mean you have a secure website, and with the new European GDPR regulations</p>
-                  </div>
-                </article>
-                <article className="article">
-                  <div className="article-container">
-                    <div className="article__header" styles={{ backgroundImage:`url(${car})` }}></div>
-                    <h3 className="article__title">SEMrush Real-Time Site Analysis of VisionDirect</h3>
-                    <p className="article__text">In this blog post, I share how to use three easily obtainable PPC reports to help improve your organic search performance. </p>
-                    <div className="article-tags">
-                      <div className="article-tags__tag">advanced</div>
-                    </div>
-                  </div>
-                </article>
-                <article className="article">
-                  <div className="article-container">
-                    <div className="article__header" styles={{ backgroundImage:`url(${car})` }}></div>
-                    <h3 className="article__title">SEMrush Real-Time Site Analysis of VisionDirect</h3>
-                    <p className="article__text">Having an SSL certificate does not mean you have a secure website, and with the new European GDPR regulations</p>
-                    <div className="article-tags">
-                      <div className="article-tags__tag">advanced</div>
-                    </div>
-                  </div>
-                </article>
-                <article className="article">
-                  <div className="article-container">
-                    <div className="article__header" styles={{ backgroundImage:`url(${car})` }}></div>
-                    <h3 className="article__title">SEMrush Real-Time Site Analysis of VisionDirect</h3>
-                    <p className="article__text">Having an SSL certificate does not mean you have a secure website, and with the new European GDPR regulations</p>
-                    <div className="article-tags">
-                      <div className="article-tags__tag">advanced</div>
-                    </div>
-                  </div>
-                </article>
+              )
+            }
+            })
+          }
               </div>
               <div className="pagination">
                 <div className="wrap">
-                  <div className="pagination__item active">1</div>
-                  <div className="pagination__item">2</div>
-                  <div className="pagination__item">3</div>
-                  <div className="pagination__item">4</div>
+                  {
+                    pagination
+                  }
                 </div>
               </div>
             </div>

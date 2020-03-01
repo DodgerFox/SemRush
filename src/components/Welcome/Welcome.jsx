@@ -2,14 +2,8 @@ import React from 'react';
 import './Welcome.sass'
 
 class Welcome extends React.Component {
-    state = {
-      modal: false
-    }
     openModal () {
-      this.setState({modal: !this.state.modal});
-      this.props.modal(this.state.modal)
-      console.log(this.state.modal + ' child');
-      
+      this.props.modal(true)
     }
     render() {
       return (
